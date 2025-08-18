@@ -1,0 +1,7 @@
+pyTelegramBotAPI==4.16.1  # Telegram Bot API
+Flask==2.3.3  #用于keep_alive
+python-dotenv==1.0.1  #用于 .env环境变量管理
+
+
+flask
+pytelegrambotapi

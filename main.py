@@ -15,22 +15,22 @@ print("Bot Token 已加载:", API_TOKEN)
 
 # ===== 用户权限表 =====
 USER_PERMISSIONS = {
-    1133977928: ['S1jun_recordings', 'S1jul_recordings', 'S3jul_recordings','S1aug_recordings'],  # 你本人，所有权限
+    1133977928: ['S1jun_recordings', 'S1jul_recordings', 'S3jul_recordings','S1aug_recordings','S3aug_recordings'],  # 你本人，所有权限
     1812568625: ['S3jul_recordings'],  # 学生 A，只能看 Sem 3 七月
     # 更多用户可在此添加，例如：
     # 1122334455: ['S1jun_recordings']
-    1821940215:['S3jul_recordings'],  # shunwen
-    1542377582:['S3jul_recordings'],  #meiqi
-    1687569236:['S3jul_recordings'],  #rachel
-    7123068204:['S3jul_recordings'],  #ruien
-    1546769481:['S3jul_recordings'],  #yixuan
-    1514480552:['S3jul_recordings'],  #yangling
-    1316252749:['S3jul_recordings'],  #jingqi
+    1821940215:['S3jul_recordings','S3aug_recordings'],  # shunwen
+    1542377582:['S3jul_recordings','S3aug_recordings'],  #meiqi
+    1687569236:['S3jul_recordings','S3aug_recordings'],  #rachel
+    7123068204:['S3jul_recordings','S3aug_recordings'],  #ruien
+    1546769481:['S3jul_recordings','S3aug_recordings'],  #yixuan
+    1514480552:['S3jul_recordings','S3aug_recordings'],  #yangling
+    1316252749:['S3jul_recordings','S3aug_recordings'],  #jingqi
     1237294924:['S1jun_recordings', 'S1jul_recordings','S1aug_recordings'],  #S1ruijie
     1579236248:['S1jun_recordings', 'S1jul_recordings','S1aug_recordings'],  #S1amber
     7503610132:['S1jun_recordings', 'S1jul_recordings','S1aug_recordings'],  #S1wenxuan
     1000428594:['S1jun_recordings', 'S1jul_recordings', 'S1aug_recordings'], #S1shimei
-    5506885279:['S3jul_recordings'],  #S3zixuan
+    5506885279:['S3jul_recordings','S3aug_recordings'],  #S3zixuan
     1202445284:['S1jul_recordings'],
 }
 
@@ -75,6 +75,9 @@ def sem3_recording(message):
 
     if has_permission(user_id, 'S3jul_recordings'):
         markup.add(InlineKeyboardButton("🎧 SEM 3 七月录课", callback_data="S3jul_recordings"))
+                   
+    if has_permission(user_id, 'S3aug_recordings'):
+        markup.add(InlineKeyboardButton("🎧 SEM 3 八月录课", callback_data="S3aug_recordings"))
 
     if len(markup.keyboard) > 0:
         bot.send_message(message.chat.id, "请选择要查看的 <b>Semester 3 录课</b>：", reply_markup=markup, parse_mode="HTML")
@@ -117,7 +120,9 @@ def callback_query(call):
         if has_permission(user_id, "S1aug_recordings"):
             markup = InlineKeyboardMarkup()
             markup.add(
-                InlineKeyboardButton("📅 2/8", url="https://drive.google.com/file/d/1cXGGUMpUIoxYMDuFQkplDmJl8N4iJrnE/view?usp=drivesdk")
+                InlineKeyboardButton("📅 2/8", url="https://drive.google.com/file/d/1cXGGUMpUIoxYMDuFQkplDmJl8N4iJrnE/view?usp=drivesdk"),
+                InlineKeyboardButton("📅 9/8", url="https://drive.google.com/file/d/1UsWHEBnuvX_aHbkkAg1xp_tjecHfCM3y/view?usp=drivesdk"),
+                InlineKeyboardButton("📅 16/8", url="https://drive.google.com/file/d/18xBCZyvIKXYE0VA_Oaz1QuVpGBt1_1Wz/view?usp=drivesdk")
             )
             bot.send_message(call.message.chat.id, "✅ <b>SEM 1 八月录课</b>: ", reply_markup=markup, parse_mode="HTML")
         else:
@@ -135,8 +140,21 @@ def callback_query(call):
         else:
             bot.send_message(call.message.chat.id, "❌ 你没有权限查看 SEM 3 七月录课。")
 
+# === SEM 3 八月 ===
+    elif call.data == "S3aug_recordings":
+        if has_permission(user_id, "S3aug_recordings"):
+            markup = InlineKeyboardMarkup()
+            markup.add(
+        InlineKeyboardButton("📅 6/8", url="https://drive.google.com/file/d/1HWJrdDJvEh1xs1M-KaI59bfuMYt6ih7b/view?usp=drivesdk"),
+                InlineKeyboardButton("📅 13/8", url="https://drive.google.com/file/d/1st1AgU5kI_ZhfheoHXB6FB7QLrvmwdEW/view?usp=drivesdk"),
+    )
+            bot.send_message(call.message.chat.id, "✅ <b>SEM 3 八月录课</b>: ", reply_markup=markup, parse_mode="HTML")
+        else:
+            bot.send_message(call.message.chat.id, "❌ 你没有权限查看 SEM 3 八月录课。")
+
 # ===== 保持运行 (Replit + UptimeRobot) =====
 keep_alive()
 bot.polling()
+
 
 
