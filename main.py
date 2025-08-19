@@ -152,9 +152,24 @@ def callback_query(call):
         else:
             bot.send_message(call.message.chat.id, "❌ 你没有权限查看 SEM 3 八月录课。")
 
-# ===== 保持运行 (Replit + UptimeRobot) =====
-keep_alive()
+import threading
+from flask import Flask
+
+app = Flask('')
+
+@app.route('/')
+def home():
+    return "I'm alive!"
+
+def run_flask():
+    app.run(host="0.0.0.0", port=8080)
+
+# 先启动 Flask
+threading.Thread(target=run_flask).start()
+
+# 再启动 Telegram Bot
 bot.polling()
+
 
 
 
